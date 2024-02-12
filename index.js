@@ -32,7 +32,7 @@ async function run() {
     const booksCollection = client.db("BookInventory").collection("books");
 
     // Insert a book to the database : post method
-    app.post('/upload-book',  async(req,res) =>{
+    app.post('/admin/dashboard/upload',  async(req,res) =>{
         const data = req.body;
         const result = await booksCollection.insertOne(data);
         res.send(result);
