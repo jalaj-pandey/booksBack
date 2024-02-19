@@ -35,13 +35,14 @@ async function run() {
     //checkout req
     app.post('/api/checkout', async (req, res) => {
       try {
-        const newCheckout = new Checkout(req.body);
-        const savedCheckout = await newCheckout.save();
+        const cheks =  req.body;
+        const savedCheckout = await Checkout.save(cheks);
         res.json(savedCheckout);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
       }
     });
+
 
 
     // Insert a book to the database : post method
