@@ -30,6 +30,19 @@ async function run() {
     await client.connect();
     // create a collection of documents
     const booksCollection = client.db("BookInventory").collection("books");
+    const Checkout = client.db('BookInventory').collection("Checkout");
+
+    //checkout req
+    app.post('/api/checkout', async (req, res) => {
+      try {
+        const newCheckout = new Checkout(req.body);
+        const savedCheckout = await newCheckout.save();
+        res.json(savedCheckout);
+      } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+
 
     // Insert a book to the database : post method
     app.post('/upload-book',  async(req,res) =>{
