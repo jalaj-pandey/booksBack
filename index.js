@@ -36,7 +36,7 @@ async function run() {
     app.post('/api/checkout', async (req, res) => {
       try {
         const cheks =  req.body;
-        const savedCheckout = await Checkout.save(cheks);
+        const savedCheckout = await Checkout.insertOne(cheks);
         res.json(savedCheckout);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
