@@ -102,6 +102,16 @@ async function run() {
         res.send(result);
     })
 
+
+    app.get('/user-books/:id', async (req, res) => {
+      let query = {};
+        if(req.query?.sellerID){
+            query = {sellerID:req.query.sellerID}
+        }
+        const result = await booksCollection.find(query).toArray();
+        res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
