@@ -30,6 +30,20 @@ async function run() {
     await client.connect();
     // create a collection of documents
     const booksCollection = client.db("BookInventory").collection("books");
+    const Checkout = client.db('BookInventory').collection("Checkout");
+
+    //checkout req
+    app.post('/api/checkout', async (req, res) => {
+      try {
+        const cheks =  req.body;
+        const savedCheckout = await Checkout.insertOne(cheks);
+        res.json(savedCheckout);
+      } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+
+
 
     // Insert a book to the database : post method
     app.post('/upload-book',  async(req,res) =>{
@@ -87,6 +101,30 @@ async function run() {
         const result = await booksCollection.find(query).toArray();
         res.send(result);
     })
+
+    app.get('/user-books/:id', async (req, res) => {
+      let query = {};
+        if(req.query?.sellerID){
+            query = {sellerID:req.query.sellerID}
+        }
+        const result = await booksCollection.find(query).toArray();
+        res.send(result);
+    });
+
+    app.get('/api/books/search/:bookTitle', async (req, res) => {
+      try {
+          const { bookTitle } = req.params;
+          // Assuming 'booksCollection' is your MongoDB collection
+          const books = await booksCollection.find({ bookTitle: { $regex: bookTitle, $options: 'i' } }).toArray();
+          // The $regex operator performs a case-insensitive search for bookTitle within the 'title' field
+          res.json(books);
+      } catch (err) {
+          console.error(err);
+          res.status(500).json({ message: 'Server Error' });
+      }
+  });
+  
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
