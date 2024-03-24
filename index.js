@@ -102,10 +102,6 @@ async function run() {
         res.send(result);
     })
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ee96509f7730bd47de3cf8c6cab582151642d23c
     app.get('/user-books/:id', async (req, res) => {
       let query = {};
         if(req.query?.sellerID){
@@ -115,7 +111,6 @@ async function run() {
         res.send(result);
     });
 
-<<<<<<< HEAD
     app.get('/api/books/search/:bookTitle', async (req, res) => {
       try {
           const { bookTitle } = req.params;
@@ -131,8 +126,6 @@ async function run() {
   
 
 
-=======
->>>>>>> ee96509f7730bd47de3cf8c6cab582151642d23c
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
